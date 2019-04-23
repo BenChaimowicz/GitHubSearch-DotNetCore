@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-sm-4 col-md-3">
+    <div class="thumbnail">
+      <img [src]="repoAvatar" alt="...">
+      <div class="caption">
+        <h3>{{repoName}}</h3>
+        <p>{{repoID}}</p>
+        <p><a href="#" class="btn btn-primary" role="button" (click)="onBookmark()">Bookmark</a><img *ngIf="repoBookmarked" [src]="vImgURL" alt="Alternate Text" /></p>
+      </div>
+    </div>
+  </div>
+</div>

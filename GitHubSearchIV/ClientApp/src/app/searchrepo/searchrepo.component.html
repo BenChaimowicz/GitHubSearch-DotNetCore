@@ -1,0 +1,17 @@
+<div class="col-lg-6">
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="Search for..."
+           (keyup.enter)="onSearch()"
+           [(ngModel)]="searchString">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="onSearch()">Search</button>
+    </span>
+  </div>
+</div>
+
+<div *ngIf="isLoaded">
+  <app-repotile *ngFor="let repo of searchResults"
+                [repoID]="repo.id"
+                [repoName]="repo.name"
+                [repoAvatar]="repo.owner.avatar_url"></app-repotile>
+</div>
