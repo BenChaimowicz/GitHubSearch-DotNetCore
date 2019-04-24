@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-bookmarked',
@@ -7,9 +8,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookmarkedComponent implements OnInit {
 
-  constructor() { }
+  public bookmarkedList: Repository[];
+  private baseURL: string;
+
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    this.baseURL = baseUrl;
+    this.getBookmarked();
+  }
 
   ngOnInit() {
   }
 
+  getBookmarked() {
+    this.http.get<Repository[]>(this.baseURL + 'api/Session/Bookmarked').subscribe(repos => { this.bookmarkedList = repos }, error => { console.log(error) } );
+  }
+
+  removeBookmark() {
+    this.bookmarkedList
+  }
 }
+
+interface Repository {
+  id: number;
+  name: string;
+  avatarURL: string;
+  bookmarked: boolean;
+}
+
