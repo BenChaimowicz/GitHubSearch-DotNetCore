@@ -14,7 +14,9 @@ export class SearchRepoComponent implements OnInit {
 
   length: number;
   pageSize = 100;
-  pageSizeOptions = [100];
+  totalPages: number;
+  currentPage: number;
+  pagesArray: number[];
 
   constructor(private searchService: RepoSearchService) {
     this.searchResults = [];
@@ -24,10 +26,15 @@ export class SearchRepoComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSearch() {
-    console.log(this.searchString);
-    this.searchService.getRepos(this.searchString).subscribe(l => { this.length = l['total_count']; });
-    this.searchService.getRepos(this.searchString).subscribe(repos => { this.searchResults = repos['items']; },
+  createPagesArray() {
+    this.pagesArray = Array(Math.ceil(this.totalPages));
+    for (var i = 0; i < this.pagesArray.length; i++) {
+      this.pagesArray[i] = i + 1;
+    }
+  }
+
+  getAndDisplayRepos(s: string = '') {
+    this.searchService.getRepos(this.searchString + s).subscribe(repos => { this.searchResults = repos['items']; },
       error => { console.log(error); },
       () => {
         console.log('Request Complete');
@@ -36,12 +43,33 @@ export class SearchRepoComponent implements OnInit {
       });
   }
 
-  onPage(e) {
-    console.log(this.searchString + '&page=' + e.pageIndex + 1);
-    if (e.pageIndex > 0) {
-      this.searchService.getRepos(this.searchString + '&page=' + (e.pageIndex + 1))
-        .subscribe(repos => { this.searchResults = repos['items']; });
-    } else { this.onSearch(); }
+  onSearch() {
+    console.log(this.searchString);
+    this.searchService.getRepos(this.searchString).subscribe(l => {
+    this.length = l['total_count'];
+      this.totalPages = this.length / this.pageSize;
+      this.currentPage = 1;
+      this.createPagesArray();
+    });
+    this.getAndDisplayRepos();
   }
 
+  nextPage() {
+    if (this.currentPage >= 1) {
+      this.currentPage++;
+      this.getAndDisplayRepos('&page=' + this.currentPage);
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage <= this.totalPages && this.currentPage > 1) {
+      this.currentPage--;
+      this.getAndDisplayRepos('&page=' + this.currentPage);
+    }
+  }
+
+  onPageNum(num: number) {
+    this.currentPage = num;
+    this.getAndDisplayRepos('&page=' + num);
+  }
 }

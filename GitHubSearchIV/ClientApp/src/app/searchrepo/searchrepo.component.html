@@ -9,9 +9,25 @@
   </div>
 </div>
 
-<div *ngIf="isLoaded">
+<div id="repoDisplay" *ngIf="isLoaded">
   <app-repotile *ngFor="let repo of searchResults"
                 [repoID]="repo.id"
                 [repoName]="repo.name"
                 [repoAvatar]="repo.owner.avatar_url"></app-repotile>
+</div>
+
+<div *ngIf="isLoaded" class="pagination">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" (click)="prevPage()" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li *ngFor="let page of pagesArray" class="page-item" [ngClass]="{'active' : currentPage == page}"><a class="page-link" (click)="onPageNum(page)">{{page}}</a></li>
+    <li class="page-item">
+      <a (click)="nextPage()" class="page-link" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
 </div>

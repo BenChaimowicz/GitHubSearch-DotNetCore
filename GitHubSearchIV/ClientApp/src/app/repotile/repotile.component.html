@@ -1,12 +1,12 @@
-<div class="row">
-  <div class="col-sm-4 col-md-3">
-    <div class="thumbnail">
-      <img [src]="repoAvatar" alt="...">
+    <div id="tile" class="thumbnail">
       <div class="caption">
-        <h3>{{repoName}}</h3>
+        <h4>{{repoName}}</h4>
         <p>{{repoID}}</p>
-        <p><a href="#" class="btn btn-primary" role="button" (click)="onBookmark()">Bookmark</a><img *ngIf="repoBookmarked" [src]="vImgURL" alt="Alternate Text" /></p>
+        <div id="imgBox">
+          <img [src]="repoAvatar" alt="...">
+        </div>
+        <div id="btnDrawer">
+          <p><a class="btn btn-primary" role="button" (click)="onBookmark()">Bookmark</a><img id="v" *ngIf="repoBookmarked" [src]="vImgURL" alt="Alternate Text" /></p>
+        </div>
       </div>
     </div>
-  </div>
-</div>
