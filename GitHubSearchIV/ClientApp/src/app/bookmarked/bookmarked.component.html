@@ -1,3 +1,8 @@
-<p>
-  bookmarked works!
-</p>
+<h1>Bookmarked Repositories</h1>
+
+<div id="repoDisplay" *ngIf="isLoaded">
+  <app-repotile *ngFor="let repo of bookmarkedList"
+                [repoID]="repo.id"
+                [repoName]="repo.name"
+                [repoAvatar]="repo.avatarURL"></app-repotile>
+</div>
